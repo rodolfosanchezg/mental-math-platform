@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><title>T08 browser validation</title>
+<body data-test-result="RUNNING">
+<script type="module">
+try {
+  const source = await (await fetch('../src/index.html')).text();
+  document.documentElement.innerHTML = new DOMParser().parseFromString(source, 'text/html').documentElement.innerHTML;
+  const calls = [];
+  let badCredentials = false;
+  let logoutOffline = false;
+  window.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (url.includes('/token')) return new Response(JSON.stringify(badCredentials
+      ? { msg: 'valid123@mental-math.invalid internal authentication error' }
+      : { access_token: 'fixture-token', expires_in: 3600, user: { id: 'fixture-user' } }),
+      { status: badCredentials ? 400 : 200 });
+    if (url.includes('/players')) return new Response(JSON.stringify([{ id: 'fixture-user', auth_user_id: 'fixture-user' }]));
+    if (url.includes('/logout')) {
+      if (logoutOffline) throw new Error('offline');
+      return new Response(null, { status: 204 });
+    }
+    throw new Error('Unexpected request');
+  };
+  await import('../src/js/app.js');
+  const select = (id) => document.getElementById(id);
+  const check = (condition, label) => { if (!condition) throw new Error(label); };
+  const settle = async (condition) => {
+    for (let i = 0; i < 100; i++) {
+      if (condition()) return;
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    throw new Error('Browser state did not settle');
+  };
+  const submit = (username) => {
+    select('username').value = username;
+    select('password').value = 'fixture-password';
+    select('login-form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  };
+  check(select('home-screen').hidden, 'Protected content initially hidden');
+  submit('Invalid_User');
+  check(calls.length === 0, 'Invalid username contacted Auth');
+  submit('valid123');
+  await settle(() => !select('home-screen').hidden);
+  check(select('login-screen').hidden && select('password').value === '', 'Login boundary/password clearing');
+  check(!document.body.innerText.includes('@mental-math.invalid'), 'Technical email visible');
+  select('logout').click();
+  check(select('home-screen').hidden, 'Logout did not immediately hide protected content');
+  await settle(() => !select('logout').disabled);
+  window.dispatchEvent(new Event('pageshow'));
+  check(select('home-screen').hidden, 'History restored protected content');
+  badCredentials = true;
+  submit('valid123');
+  await settle(() => !select('login-submit').disabled);
+  check(select('status').textContent.includes('No se pudo iniciar sesión'), 'Generic login error missing');
+  check(!select('status').textContent.includes('@'), 'Server detail leaked');
+  badCredentials = false;
+  submit('valid123');
+  await settle(() => !select('home-screen').hidden);
+  logoutOffline = true;
+  select('logout').click();
+  await settle(() => !select('logout').disabled);
+  check(select('home-screen').hidden && !select('login-screen').hidden, 'Offline logout kept protected content');
+  document.body.dataset.testResult = 'PASS';
+  select('status').textContent = 'T08 browser validation PASS';
+} catch (error) {
+  document.body.dataset.testResult = 'FAIL';
+  document.body.append(document.createTextNode(`Browser validation failed: ${error.message}`));
+}
+</script></body></html>

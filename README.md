@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T07 CLOSED, QA PASS.**
+**Implementación: T01–T08 CLOSED; CHECKPOINT_WAIT.**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -19,7 +19,7 @@ Valerio verificó independientemente el esquema y emitió PASS sin hallazgos.
 T03 está aplicada y validada por Valerio sin hallazgos: crear un Auth User
 administrativo con email técnico válido
 crea su perfil automáticamente con el mismo UUID, S1/M1 y rachas cero. El
-frontend sigue siendo un placeholder; no hay lógica de juego implementada.
+frontend implementa login/logout; no hay lógica de juego implementada.
 Las tablas tienen RLS
 y políticas de lectura de datos propios basadas en `auth.uid()`. El banco admite
 lectura autenticada; el rol anónimo carece de acceso. Las escrituras directas de
@@ -33,6 +33,43 @@ y get_personal_records devuelve los mejores resultados propios por modo. Resumen
 
 El banco contiene 10.412 operaciones activas (S1–S5 / M1–M6), verificadas
 exhaustivamente por el desarrollador. La bolsa equilibrada pertenece a T10.
+
+T08 implementa username/password con Supabase Auth, errores genéricos y logout.
+La pantalla autenticada mínima valida la frontera de acceso; el Home y sus botones
+corresponden a T09. Solo URL y publishable key forman parte de `src/js/config.js`,
+según D-020; ninguna credencial administrativa se carga en el navegador.
+
+## Ejecutar frontend T08
+
+```sh
+node tools/configure-public.mjs
+python3 -m http.server 8000 --bind 127.0.0.1 --directory src
+```
+
+El primer comando lee únicamente `.env.supabase.public.local` (ignorado), genera
+la configuración pública y no imprime valores. Abrir http://127.0.0.1:8000.
+No servir la raíz del repositorio, donde se encuentran los archivos locales.
+El producto sigue siendo estático y no requiere Node/Python en producción.
+
+La sesión se conserva solo en memoria hasta su expiración; recargar requiere
+login. Logout elimina acceso local inmediatamente y solicita cierre remoto del
+usuario. No hay signup ni recuperación; las cuentas se crean administrativamente.
+Valerio validó login, sesión, perfil propio, contraseña incorrecta y logout contra
+Supabase real y en Chrome: QA PASS, sin hallazgos. Las credenciales de la cuenta
+administrativa de prueba permanecen en `.env.auth-test.local`, ignorado por Git.
+
+## Validar T08
+
+```sh
+node --experimental-default-type=module --test tests/t08_auth.test.mjs
+node --experimental-default-type=module tests/t08_live_public.mjs
+```
+
+`tests/t08_browser.html` valida la interfaz en Chrome con respuestas controladas;
+servir solo copias de src y ese fixture en un directorio temporal, sin .env.
+T08 se cierra con QA PASS, documentación y push verificado. El proyecto entra
+en CHECKPOINT_WAIT: resumen conjunto en `docs/CHECKPOINT_2.md`. Rodolfo debe
+aprobar CONTINUE / FIX / REPLAN antes de iniciar T09.
 
 Las instrucciones de aplicación y validación están en `supabase/README.md`.
 

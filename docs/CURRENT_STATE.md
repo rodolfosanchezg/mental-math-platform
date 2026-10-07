@@ -3,14 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T04 CLOSED; T05 CLOSED; T06 CLOSED; T07 CLOSED**
+**Implementation: T01–T08 CLOSED; CHECKPOINT_WAIT**
 
 ## Seguimiento operativo
 
-- TASK: T07 — Motor de progresión y records.
+- TASK: T08 — Frontend de autenticación.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T07 (efectivo tras verificar push de cierre).
+- Última tarea cerrada: T08 (cierre operativo efectivo tras push verificado).
+- CHECKPOINT 2: CHECKPOINT_WAIT — requiere decisión explícita de Rodolfo.
+- Commit T07: `63cdf45`, push verificado.
 - Commit T06: `d17f501`, push verificado.
 - Commit T05: `53bd124`, push verificado.
 - Commit T04: `e07db34`, push verificado.
@@ -22,9 +24,10 @@
 - QA T01: Valerio PASS — READY TO CLOSE; sin hallazgos.
 - QA T02: Valerio PASS, sin hallazgos; correcciones utilizadas: 0.
 - Actualización documental de cierre T01: `f25a071`, pusheada.
-- Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
+- Sincronización histórica T01: `f25a071` se verificó en el cierre de T01.
+- Último HEAD local/remoto verificado: `63cdf45`, cierre T07.
 - Correcciones automáticas utilizadas: 0.
-- T08–T12: NOT_STARTED.
+- T09–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -44,9 +47,9 @@
 
 ## No existe todavía
 
-- usuarios reales de la aplicación;
-- frontend funcional (`src/index.html` es solo un placeholder);
-- pruebas de frontend y end-to-end ejecutadas.
+- usuarios finales del producto (existe cuenta administrativa de prueba);
+- Home completo y motor de juego;
+- flujo end-to-end completo de juego ejecutado.
 
 ## Preparación de T01
 
@@ -143,13 +146,35 @@
 - Integración QA real: 14 sesiones / 210 respuestas, promociones y descensos
   en ambos modos y cierres idempotentes; fixtures revertidos.
 
+## T08 — CLOSED
+
+- Configuración pública comprobada sin imprimir valores, .env ignorados.
+- Generador whitelist URL/publishable; config.js seguro para navegador por D-020.
+- HTML/CSS/JS Vanilla y fetch, sin librerías, dependencias ni migraciones nuevas.
+- Username regex validada antes de red; email técnico solo dentro de petición Auth.
+- Perfil propio verificado usando JWT/RLS; sin autorización por username.
+- Sección autenticada mínima y logout; Home completo pertenece a T09.
+- Sesión solo en memoria; recargar requiere login. Logout/expiración eliminan acceso local.
+- Sin PG, service_role, secret keys ni claves privadas en el frontend/herramientas.
+- QA anterior BLOCKED por cuenta ausente, resuelto sin cambios de implementación.
+- QA final Valerio PASS: login real Auth HTTP 200, perfil propio HTTP 200,
+  contraseña incorrecta genérica y logout remoto HTTP 204.
+- Chrome real: acceso autenticado, email técnico oculto, password limpiado,
+  sesión conservada en memoria y pantalla protegida bloqueada tras logout/pageshow.
+- Evidencia previa contrato/Chrome controlado/servicio público real PASS conservada.
+- Sesiones de prueba remotas cerradas; ningún defecto pendiente; correcciones: 0.
+- Informe `docs/T08_QA.md`; resumen conjunto `docs/CHECKPOINT_2.md`.
+- Documentación y commit/push de cierre deben verificarse antes de finalizar.
+- T09–T12 NOT_STARTED; CHECKPOINT_WAIT después del cierre T08.
+
 ## Próximo responsable
 
-Senior Developer (Aurelio).
+Rodolfo — decisión del Checkpoint 2.
 
 ## Próximo objetivo
 
-Verificar push de cierre T07 e iniciar T08.
+Esperar CONTINUE / FIX / REPLAN de Rodolfo; no iniciar T09 antes de su
+aprobación explícita del Checkpoint 2.
 
 ## Regla operativa
 
