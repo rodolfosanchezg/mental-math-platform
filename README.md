@@ -5,17 +5,23 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01 — CLOSED, QA PASS y commit de cierre pusheado.**
+**Implementación: T01–T02 CLOSED, esquema base aplicado y QA PASS.**
 
 **Supabase: proyecto limpio creado y Auth configurado.**
 
 T01 deja preparada la estructura del repositorio y cuenta con QA PASS. El commit
-`402af04` está publicado en GitHub. El siguiente paso es T02 — esquema base de
-Supabase.
+`402af04` y la actualización documental `f25a071` están publicados en GitHub.
+T02 — esquema base de Supabase está aplicado: `players`, `operations`,
+`sessions`, `session_answers` y `level_history`, con constraints e índices.
+Las pruebas SQL transaccionales pasaron y sus fixtures se revirtieron.
+Valerio verificó independientemente el esquema y emitió PASS sin hallazgos.
 
-Todavía no existe implementación funcional: `src/index.html` es un placeholder,
-y las carpetas de migraciones y pruebas solo contienen marcadores `.gitkeep`.
-No hay lógica de juego ni autenticación implementada en el repositorio.
+El frontend sigue siendo un placeholder. No hay lógica de juego ni
+aprovisionamiento de perfiles Auth implementados. Las tablas tienen RLS
+habilitado y acceso de cliente revocado como protección del esquema intermedio;
+las políticas multiusuario se implementarán en T04.
+
+Las instrucciones de aplicación y validación están en `supabase/README.md`.
 
 ## Estructura inicial
 
