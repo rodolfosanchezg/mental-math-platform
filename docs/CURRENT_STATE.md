@@ -250,3 +250,18 @@ El trabajo autónomo se detiene en CHECKPOINT_WAIT.
 ## Regla operativa
 
 Cada cierre de tarea debe actualizar `README.md` y `CURRENT_STATE.md` para reflejar el estado real del repositorio.
+
+## Deployment solicitado — PAGES
+
+- TASK: PAGES — publicar src mediante GitHub Actions.
+- OWNER: AURELIO.
+- STATUS: READY_TO_CLOSE.
+- Alcance explícitamente autorizado por Rodolfo tras Checkpoint 3.
+- GitHub Pages ya usa build_type workflow; se sustituye publicación automática
+  de raíz por workflow específico con artifact path src.
+- Workflow oficial build/deploy, permisos mínimos y environment github-pages.
+- Verificador estático PASS: ocho archivos del frontend, rutas relativas y
+  config.js con URL/publishable; sin cambios de funcionalidad ni documentos movidos.
+- QA previo Valerio PASS, incluyendo pruebas negativas del artefacto.
+- Commit/push, Actions y validación independiente en vivo pendientes.
+- Checkpoint 3/aprobación final de v0.1 no se modifica por este deployment.

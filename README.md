@@ -138,3 +138,19 @@ Corrección #1 y Valerio emitió PASS de re-review, sin defectos pendientes.
 Checkpoint 3 en `docs/CHECKPOINT_3.md`: validación y aprobación final de Rodolfo
 pendientes. T01–T12 cerradas con QA y push verificado; v0.1 no se declara
 finalizada hasta que Rodolfo autorice su cierre.
+
+## GitHub Pages
+
+Workflow `.github/workflows/pages.yml`: push a main o ejecución manual publica
+exclusivamente `src/`, con `index.html` en la raíz del sitio. No usa Jekyll ni
+publica README/docs/tests/tools o archivos locales. Las rutas CSS/JS son relativas
+para funcionar bajo `/mental-math-platform/`.
+
+Antes de subir el artefacto, `tools/verify-pages.py` comprueba referencias,
+configuración Supabase pública y rechaza .env, enlaces simbólicos y firmas de
+credenciales privadas dentro de src. El deployment usa la configuración pública
+versionada de `src/js/config.js`; no carga archivos .env ni secrets de Supabase.
+
+URL: https://rodolfosanchezg.github.io/mental-math-platform/
+Estado del cambio de deployment: QA previo PASS; ejecución Actions y validación en vivo pendientes.
+La aprobación final de v0.1 en Checkpoint 3 permanece pendiente.
