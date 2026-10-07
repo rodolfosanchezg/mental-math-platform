@@ -3,14 +3,15 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T04 CLOSED; T05 CLOSED**
+**Implementation: T01–T04 CLOSED; T05 CLOSED; T06 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T05 — Banco de operaciones S1–S5 / M1–M6.
+- TASK: T06 — Backend de sesiones de juego.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T05 (efectivo al verificar push de cierre).
+- Última tarea cerrada: T06 (efectivo tras push verificado).
+- Commit T05: `53bd124`, push verificado.
 - Commit T04: `e07db34`, push verificado.
 - CHECKPOINT 1: aprobado por Rodolfo mediante CONTINUE el 2026-10-07.
 - Commit de cierre T03: `7b02dc4`, push verificado.
@@ -22,7 +23,7 @@
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
 - Correcciones automáticas utilizadas: 0.
-- T06–T12: NOT_STARTED.
+- T07–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -100,7 +101,7 @@
 - Cierre con commit orientado a T04 y push verificado antes de finalizar.
 - Checkpoint 1 aprobado; resumen en `docs/CHECKPOINT_1.md`.
 
-## T05 — READY_FOR_REVIEW
+## T05 — CLOSED
 
 - Migración `202610070004_operations_bank.sql` aplicada, sin alterar datos existentes.
 - 10.412 operaciones activas y únicas: 9.798 sumas y 614 multiplicaciones.
@@ -111,13 +112,27 @@
 - Sin lógica de bolsa/juego ni RPC implementadas fuera de alcance.
 - QA T05: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
 
+## T06 — CLOSED
+
+- Migración `202610070005_game_sessions.sql` aplicada.
+- RPC autenticados start_game_session, record_game_answer, close_game_session.
+- Propietario derivado de auth.uid(); snapshot de nivel y duración 45 s.
+- Operación activa del modo/nivel; scoring y totales calculados en PostgreSQL.
+- Respuesta NULL incorrecta; tiempos no negativos y anteriores a 45.000 ms.
+- UUID de submission y bloqueo de fila garantizan reintentos idempotentes.
+- Cierre tras vencimiento; no recibe texto pendiente; no acepta respuestas nuevas tras cierre.
+- Métricas de tiempo medidas por cliente, validadas por rango/orden, no anticheat.
+- Pruebas T06 PASS; regresión T02–T05 PASS; fixtures revertidos.
+- Progresión/records pendientes de T07; sin frontend adelantado.
+- QA T06: Valerio PASS, sin hallazgos funcionales/de seguridad; correcciones: 0.
+
 ## Próximo responsable
 
 Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar push de cierre T05 e iniciar T06.
+Verificar push de cierre T06 e iniciar T07.
 
 ## Regla operativa
 

@@ -8,6 +8,7 @@ Backend PostgreSQL reproducible; frontend todavía sin conectar.
 2. `202610070002_auth_players.sql` — T03: aprovisionamiento Auth/perfil.
 3. `202610070003_rls_security.sql` — T04: lectura propia y banco autenticado.
 4. `202610070004_operations_bank.sql` — T05: banco completo de operaciones.
+5. `202610070005_game_sessions.sql` — T06: RPC de persistencia de partidas.
 
 Cada migración se aplica una sola vez en este orden, en una transacción.
 No borra ni sustituye tablas existentes: ante colisión se detiene. La aplicación
@@ -47,8 +48,8 @@ cuentas persistentes. Frontend login/logout pendiente de T08.
 RLS en las cinco tablas. El cliente authenticated puede leer sus propios datos
 personales y el banco operations. anon no tiene acceso. Ninguno de los roles
 API puede INSERT/UPDATE/DELETE directamente, incluso sobre datos propios;
-la persistencia y progreso se implementarán con RPC que verifican identidad
-en T06–T07. Esto evita permitir al cliente alterar niveles o resultados.
+la persistencia usa RPC T06 que verifican identidad; la progresión se añade
+en T07. Esto evita permitir al cliente alterar niveles o resultados.
 
 T04 valida roles y claims dentro de PostgreSQL; pruebas de UI y flujos completos
 quedan para las tareas frontend/integración. El banco T05 contiene 10.412 operaciones activas.
@@ -64,3 +65,29 @@ python3 tests/t05_operations.py
 El script usa solo la biblioteca estándar de Python ya disponible como herramienta
 de validación; consulta PostgreSQL en lectura y compara exhaustivamente el banco
 con las reglas S1–S5 / M1–M6. No introduce dependencias del producto.
+
+## RPC de sesiones T06
+
+- `start_game_session(p_type)`: inicia 45 s con el nivel actual, sin parámetros
+  de propietario ni selección manual de nivel; devuelve la fila sessions.
+- `record_game_answer(p_session_id, p_operation_id, p_answer_given,
+  p_response_time_ms, p_elapsed_ms, p_submission_id)`: persiste un Enter enviado.
+  NULL representa vacío; el servidor calcula is_correct. El cliente mide ambos
+  tiempos desde el comienzo/visualización; elapsed debe ser <45.000 ms y estar
+  en orden. Pasar siempre un UUID estable por envío y reutilizarlo al reintentar.
+- `close_game_session(p_session_id)`: tras los 45 s calcula totales/accuracy;
+  sesiones vacías tienen accuracy 0. Repetir devuelve el mismo resultado.
+
+Serializar los envíos de respuesta, conservar su UUID/tiempos al reintentar y
+esperar los envíos pendientes antes del cierre. Se aceptan paquetes demorados
+con tiempo de envío válido antes de cerrar; estos tiempos son métricas cliente,
+no un sistema anticheat. Descartar entrada no enviada al llegar a cero; el cierre
+no acepta respuestas ni texto. Nunca enviar corrección/totales desde navegador.
+
+```sh
+psql -X -w -v ON_ERROR_STOP=1 -f supabase/tests/t06_sessions.sql
+```
+
+Los RPC son SECURITY DEFINER con search_path vacío y autorización auth.uid()
+explícita; EXECUTE solo authenticated. Los roles cliente siguen sin DML directo.
+Progresión y records se implementarán en T07 dentro del cierre transaccional.
