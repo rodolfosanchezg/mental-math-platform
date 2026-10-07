@@ -3,7 +3,17 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: NOT STARTED**
+**Implementation: T01 — CLOSED (efectivo al verificar el push de este cierre)**
+
+## Seguimiento operativo
+
+- TASK: T01 — Inicialización del repositorio.
+- OWNER: AURELIO.
+- STATUS: CLOSED (efectivo al verificar el push de este cierre).
+- Última tarea cerrada: T01, sujeto al push verificado del commit de cierre.
+- QA: Valerio PASS — READY TO CLOSE; sin hallazgos.
+- Correcciones automáticas utilizadas: 0.
+- T02–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -27,8 +37,20 @@
 - RLS implementado;
 - banco de operaciones cargado;
 - usuarios reales de la aplicación;
-- frontend;
-- pruebas ejecutadas.
+- frontend funcional (`src/index.html` es solo un placeholder);
+- pruebas funcionales ejecutadas.
+
+## Preparación de T01
+
+- Estructura base presente conforme a `PROJECT_STRUCTURE.md`.
+- Carpetas reservadas con `.gitkeep`, sin migraciones ni lógica funcional.
+- `.gitignore` protege configuración local, credenciales y claves privadas.
+- Validación independiente de Valerio: PASS, sin hallazgos.
+- Estructura, reglas de ignore, placeholders y revisión por firmas de secretos: PASS.
+- `git diff --check`: PASS.
+- Supabase inicial verificado documentalmente, sin conexión remota en T01.
+- Este documento forma parte del commit de cierre de T01; el cierre operativo
+  solo se completa tras verificar su push. Si falla Git, T01 pasa a BLOCKED.
 
 ## Próximo responsable
 
@@ -36,7 +58,7 @@ Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Preparar e implementar backend Supabase reproducible y verificable antes de conectar el frontend.
+Verificar el push de cierre de T01 e iniciar T02 — esquema base de Supabase.
 
 ## Regla operativa
 

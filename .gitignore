@@ -2,11 +2,34 @@
 .DS_Store
 Thumbs.db
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # Local env / secrets
 .env
 .env.*
 !.env.example
+# Local credentials, private keys and administrative configuration
+.aws/
+.codex/
+.agents/
+.supabase/
+supabase/.temp/
+supabase/.branches/
+credentials.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+.pgpass
+.pg_service.conf
+
+# Local database exports (SQL migrations and tests remain versionable)
+*.dump
+*.backup
 
 # Logs
 *.log

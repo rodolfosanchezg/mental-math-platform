@@ -5,8 +5,28 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: no iniciada.**  
+**Implementación: T01 — estructura inicial validada por QA (PASS).**
+
 **Supabase: proyecto limpio creado y Auth configurado.**
+
+T01 deja preparada la estructura del repositorio. El siguiente paso es T02 —
+esquema base de Supabase, tras verificar el push del commit de cierre.
+
+Todavía no existe implementación funcional: `src/index.html` es un placeholder,
+y las carpetas de migraciones y pruebas solo contienen marcadores `.gitkeep`.
+No hay lógica de juego ni autenticación implementada en el repositorio.
+
+## Estructura inicial
+
+La distribución de carpetas sigue `docs/PROJECT_STRUCTURE.md`: `src/` para el
+frontend estático, `assets/` para recursos, `supabase/migrations/` para futuras
+migraciones, `supabase/tests/` para pruebas del backend y `tests/` para pruebas
+generales. No se requiere instalar dependencias ni herramientas adicionales en T01.
+
+Los archivos `.env` locales, credenciales administrativas y claves privadas no se
+versionan. Si se crea `.env.example`, debe contener únicamente valores de ejemplo
+sin secretos. Solo Project URL y publishable key pueden utilizarse en el futuro
+cliente según `docs/DECISIONS.md`.
 
 ## Stack aprobado
 
@@ -31,6 +51,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 - `docs/SUPABASE_SETUP.md`
 - `docs/ROADMAP.md`
 - `docs/CURRENT_STATE.md`
+- `docs/PROJECT_STRUCTURE.md`
 
 ## Regla de gobierno
 
