@@ -255,7 +255,7 @@ Cada cierre de tarea debe actualizar `README.md` y `CURRENT_STATE.md` para refle
 
 - TASK: PAGES — publicar src mediante GitHub Actions.
 - OWNER: AURELIO.
-- STATUS: READY_TO_CLOSE.
+- STATUS: CLOSED.
 - Alcance explícitamente autorizado por Rodolfo tras Checkpoint 3.
 - GitHub Pages ya usa build_type workflow; se sustituye publicación automática
   de raíz por workflow específico con artifact path src.
@@ -263,5 +263,11 @@ Cada cierre de tarea debe actualizar `README.md` y `CURRENT_STATE.md` para refle
 - Verificador estático PASS: ocho archivos del frontend, rutas relativas y
   config.js con URL/publishable; sin cambios de funcionalidad ni documentos movidos.
 - QA previo Valerio PASS, incluyendo pruebas negativas del artefacto.
-- Commit/push, Actions y validación independiente en vivo pendientes.
+- Commit `c1c1623` pusheado; Actions run 37691645023 build/deploy SUCCESS.
+- QA LIVE Valerio PASS: artefacto exclusivo ocho archivos src, URLs/bytes/rutas
+  correctos, login inicializado en Chrome, cero errores runtime.
+- URL: https://rodolfosanchezg.github.io/mental-math-platform/
+- README/docs/archivos .env comprobados devuelven 404.
+- Sin cambios de funcionalidad; cero correcciones y ningún hallazgo pendiente.
+- Actualización documental de cierre se publica y verifica después de QA LIVE.
 - Checkpoint 3/aprobación final de v0.1 no se modifica por este deployment.

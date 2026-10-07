@@ -1,5 +1,8 @@
 # Checkpoint 3 — T01–T12
 
+Este informe conserva la foto del cierre T12. El deployment posterior PAGES,
+autorizado por Rodolfo y validado en vivo, figura en README y CURRENT_STATE.
+
 CHECKPOINT: 3
 COMPLETED THROUGH: T12
 STATUS: WAITING FOR OWNER APPROVAL

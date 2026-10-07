@@ -152,5 +152,8 @@ credenciales privadas dentro de src. El deployment usa la configuración públic
 versionada de `src/js/config.js`; no carga archivos .env ni secrets de Supabase.
 
 URL: https://rodolfosanchezg.github.io/mental-math-platform/
-Estado del cambio de deployment: QA previo PASS; ejecución Actions y validación en vivo pendientes.
+Deployment publicado y validado por Valerio: QA PASS, sin hallazgos.
+Actions build/deploy SUCCESS para `c1c1623`; artefacto de ocho archivos idénticos
+a src, rutas correctas y login inicializado en Chrome. README/docs/.env no publicados.
+Ejecución: https://github.com/rodolfosanchezg/mental-math-platform/actions/runs/37691645023
 La aprobación final de v0.1 en Checkpoint 3 permanece pendiente.
