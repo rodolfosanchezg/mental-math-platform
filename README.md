@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T08 CLOSED; T09 CLOSED.**
+**Implementación: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED.**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -35,8 +35,7 @@ El banco contiene 10.412 operaciones activas (S1–S5 / M1–M6), verificadas
 exhaustivamente por el desarrollador. La bolsa equilibrada pertenece a T10.
 
 T08 implementa username/password con Supabase Auth, errores genéricos y logout.
-La pantalla autenticada mínima valida la frontera de acceso; el Home y sus botones
-corresponden a T09. Solo URL y publishable key forman parte de `src/js/config.js`,
+El Home muestra perfil/niveles y navega a Sumas, Multiplicaciones y records. Solo URL y publishable key forman parte de `src/js/config.js`,
 según D-020; ninguna credencial administrativa se carga en el navegador.
 
 ## Ejecutar frontend T08
@@ -68,8 +67,10 @@ node --experimental-default-type=module tests/t08_live_public.mjs
 `tests/t08_browser.html` valida la interfaz en Chrome con respuestas controladas;
 servir solo copias de src y ese fixture en un directorio temporal, sin .env.
 T08 cerrado con `db5f020`. Rodolfo aprobó CONTINUE en Checkpoint 2.
-T09 muestra perfil, niveles y navegación Home/modos/records; START y contenido
-de records se completarán en T10/T11. QA T09 PASS sin hallazgos.
+T09 muestra perfil/niveles/navegación, QA PASS. T10 implementa START, cuenta
+regresiva, 45 s, teclado, feedback y bolsa equilibrada desde el banco completo.
+Las respuestas se guardan en orden al terminar, con reintentos idempotentes y
+cierre RPC. Resultados/revisión/records completos pertenecen a T11.
 
 Las instrucciones de aplicación y validación están en `supabase/README.md`.
 
@@ -113,3 +114,15 @@ cliente según `docs/DECISIONS.md`.
 ## Regla de gobierno
 
 La documentación aprobada es la fuente de verdad. Ninguna tarea de implementación puede modificar silenciosamente requisitos, reglas de juego, seguridad o arquitectura.
+
+## Validar motor T10
+
+```sh
+node --experimental-default-type=module --test tests/t10_game.test.mjs tests/t08_auth.test.mjs
+```
+
+`tests/t10_browser.html` valida el ciclo completo con API controlada y tiempo
+virtual de Chrome. Los tiempos reales y RPC se verifican además por QA.
+La entrada respeta el rango integer de PostgreSQL; todas las respuestas correctas
+del banco caben. Si falla guardar, REINTENTAR conserva UUID/orden y no duplica
+respuestas. No se muestra contador de ejercicios durante el juego.

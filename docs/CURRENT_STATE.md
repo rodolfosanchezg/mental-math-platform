@@ -3,14 +3,15 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T08 CLOSED; T09 CLOSED**
+**Implementation: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T09 — Home y navegación principal.
+- TASK: T10 — Motor frontend de juego.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T09 (efectivo tras push verificado).
+- Última tarea cerrada: T10 (efectivo tras push verificado).
+- Commit T09: `1280412`, push verificado.
 - Commit T08: `db5f020`, push verificado.
 - CHECKPOINT 2: aprobado por Rodolfo mediante CONTINUE.
 - Commit T07: `63cdf45`, push verificado.
@@ -26,9 +27,9 @@
 - QA T02: Valerio PASS, sin hallazgos; correcciones utilizadas: 0.
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización histórica T01: `f25a071` se verificó en el cierre de T01.
-- Último HEAD local/remoto verificado: `63cdf45`, cierre T07.
+- HEAD local/remoto verificado antes de este cierre: `1280412` (T09).
 - Correcciones automáticas utilizadas: 0.
-- T10–T12: NOT_STARTED.
+- T11–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -49,7 +50,7 @@
 ## No existe todavía
 
 - usuarios finales del producto (existe cuenta administrativa de prueba);
-- Home completo y motor de juego;
+- resultados/revisión/records completos en interfaz;
 - flujo end-to-end completo de juego ejecutado.
 
 ## Preparación de T01
@@ -166,7 +167,7 @@
 - Sesiones de prueba remotas cerradas; ningún defecto pendiente; correcciones: 0.
 - Informe `docs/T08_QA.md`; resumen conjunto `docs/CHECKPOINT_2.md`.
 - Documentación y commit/push de cierre deben verificarse antes de finalizar.
-- T09–T12 NOT_STARTED; CHECKPOINT_WAIT después del cierre T08.
+- Checkpoint 2 aprobado posteriormente; T08 sigue CLOSED.
 
 ## T09 — CLOSED
 
@@ -178,13 +179,29 @@
 - Contrato Auth y navegador T09 PASS; sin dependencias ni cambios backend.
 - QA Valerio PASS sin hallazgos; correcciones 0; T10 inicia tras push verificado.
 
+## T10 — CLOSED
+
+- Bolsa Fisher-Yates sin repetición hasta agotamiento, UUID de ejercicios distintos.
+- Banco activo paginado para incluir niveles con más de 1.000 filas.
+- Countdown 3–2–1; sesión/45 s tras countdown; snapshot de nivel del servidor.
+- Solo dígitos/Enter/Backspace, feedback 350 ms no bloqueante, contador arriba izquierda.
+- Enter vacío NULL incorrecto; a cero se descarta texto no enviado.
+- Guardado ordenado con UUID estable por envío, cierre RPC y REINTENTAR idempotente.
+- Sesión cancelada al perder Auth; perfil actualizado tras cerrar.
+- Tests unitarios de tiempo/bolsa/persistencia y Chrome virtual completo PASS.
+- Sin nuevas dependencias/migraciones; resultados detallados pendientes de T11.
+- QA Valerio PASS sin hallazgos; correcciones 0.
+- Chrome real en ambos modos: 2 respuestas por sesión (correcta/vacía),
+  total 2/1/1/50%, texto pendiente descartado. Dos sesiones/cuatro respuestas
+  conservadas en cuenta de prueba, progreso actualizado normalmente.
+
 ## Próximo responsable
 
 Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar push T09 e iniciar T10.
+Verificar push T10 e iniciar T11.
 
 ## Regla operativa
 

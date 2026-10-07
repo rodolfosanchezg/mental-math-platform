@@ -14,3 +14,8 @@ button:disabled { opacity: .65; cursor: wait; }
 #status { line-height: 1.5; margin-bottom: 0; }
 #home-screen button { display: block; width: 100%; margin-top: 12px; }
 #logout { margin-top: 24px !important; background: #3b4e59; }
+#timer { position: fixed; top: 16px; left: 16px; font-size: 1.5rem; font-weight: bold; }
+#operation { text-align: center; font-size: clamp(2rem, 8vw, 4rem); margin-top: 24px; }
+#answer { text-align: center; font-size: 2.5rem; min-height: 3.5rem; overflow-wrap: anywhere; }
+#feedback { text-align: center; height: 2rem; font-size: 1.5rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }

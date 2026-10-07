@@ -51,6 +51,14 @@ export function createAuth(config, {
       return session !== null;
     },
     getProfile() { return api.isAuthenticated() ? { ...session.profile } : null; },
+    async refreshProfile() {
+      const profiles = await api.authenticatedRequest('/rest/v1/players?select=id,auth_user_id,username,display_name,current_addition_level,current_multiplication_level&limit=2');
+      if (profiles.length !== 1 || profiles[0].id !== session.profile.id || profiles[0].auth_user_id !== session.profile.auth_user_id) {
+        generation += 1; clearSession(); throw new Error('Sesión no disponible.');
+      }
+      session.profile = profiles[0];
+      return api.getProfile();
+    },
     async authenticatedRequest(path, body) {
       if (!api.isAuthenticated() || !path.startsWith('/rest/v1/')) throw new Error('Sesión no disponible.');
       const attempt = generation;

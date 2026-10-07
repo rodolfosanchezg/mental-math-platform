@@ -1,9 +1,12 @@
 export function createNavigation(auth, root) {
   let mode = 'addition';
+  let currentScreen = null;
   const screens = [...root.querySelectorAll('[data-screen]')];
   const select = (id) => root.querySelector(`#${id}`);
   function show(name) {
     if (!auth.isAuthenticated()) return;
+    if (currentScreen === name) return;
+    currentScreen = name;
     for (const screen of screens) screen.hidden = screen.dataset.screen !== name;
     const heading = root.querySelector(`[data-screen="${name}"] h2`);
     heading?.focus();
@@ -32,6 +35,7 @@ export function createNavigation(auth, root) {
   auth.subscribe((authenticated) => {
     if (authenticated) { renderHome(); show('home'); }
     else {
+      currentScreen = null;
       for (const screen of screens) screen.hidden = true;
       select('greeting').textContent = '';
       select('addition-level').textContent = '';

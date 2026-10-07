@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><title>T10 browser validation</title>
+<body data-test-result="RUNNING">
+<script type="module">
+try {
+  const source = await (await fetch('../src/index.html')).text();
+  const parsed = new DOMParser().parseFromString(source, 'text/html');
+  const base = parsed.createElement('base'); base.href = new URL('../src/', location.href).href; parsed.head.prepend(base);
+  document.documentElement.innerHTML = parsed.documentElement.innerHTML;
+  const calls = []; const answers = [];
+  let badCredentials = false;
+  let logoutOffline = false;
+  window.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (url.includes('/token')) return new Response(JSON.stringify(badCredentials
+      ? { msg: 'valid123@mental-math.invalid internal authentication error' }
+      : { access_token: 'fixture-token', expires_in: 3600, user: { id: 'fixture-user' } }),
+      { status: badCredentials ? 400 : 200 });
+    if (url.includes('/operations?')) return new Response(JSON.stringify([
+      {id:'op1',type:'addition',level:'S3',operand_a:28,operand_b:5,result:33},
+      {id:'op2',type:'addition',level:'S3',operand_a:29,operand_b:5,result:34}]));
+    if (url.includes('/start_game_session')) return new Response(JSON.stringify([{id:'session',type:'addition',level:'S3',duration_seconds:45}]));
+    if (url.includes('/record_game_answer')) { const body=JSON.parse(options.body); answers.push(body); return new Response(JSON.stringify([{answer_given:body.p_answer_given,is_correct:body.p_answer_given===33}])); }
+    if (url.includes('/close_game_session')) return new Response(JSON.stringify([{id:'session',type:'addition',level:'S3',total_operations:answers.length}]));
+    if (url.includes('/players')) return new Response(JSON.stringify([{ id: 'fixture-user', auth_user_id: 'fixture-user', username: 'valid123', display_name: 'QA Home', current_addition_level: 'S3', current_multiplication_level: 'M5' }]));
+    if (url.includes('/logout')) {
+      if (logoutOffline) throw new Error('offline');
+      return new Response(null, { status: 204 });
+    }
+    throw new Error('Unexpected request');
+  };
+  await import('../src/js/app.js');
+  const select = (id) => document.getElementById(id);
+  const check = (condition, label) => { if (!condition) throw new Error(label); };
+  const settle = async (condition) => {
+    for (let i = 0; i < 6000; i++) {
+      if (condition()) return;
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    throw new Error('Browser state did not settle');
+  };
+  const submit = (username) => {
+    select('username').value = username;
+    select('password').value = 'fixture-password';
+    select('login-form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  };
+  check(select('home-screen').hidden, 'Protected content initially hidden');
+  submit('Invalid_User');
+  check(calls.length === 0, 'Invalid username contacted Auth');
+  submit('valid123');
+  await settle(() => !select('home-screen').hidden);
+  check(select('login-screen').hidden && select('password').value === '', 'Login boundary/password clearing');
+  check(!document.body.innerText.includes('@mental-math.invalid'), 'Technical email visible');
+  check(select('greeting').textContent === 'Hola, QA Home', 'Profile name missing');
+  check(select('addition-level').textContent === 'S3' && select('multiplication-level').textContent === 'M5', 'Levels missing');
+  select('addition').click(); check(select('mode-title').textContent === 'SUMAS' && select('mode-level').textContent === 'S3', 'Addition navigation');
+  document.querySelector('[data-screen="pre-game"] [data-home]').click();
+  select('multiplication').click(); check(select('mode-level').textContent === 'M5', 'Multiplication navigation');
+  document.querySelector('[data-screen="pre-game"] [data-home]').click();
+  select('view-records').click(); check(!document.querySelector('[data-screen="records"]').hidden, 'Records navigation');
+  document.querySelector('[data-screen="records"] [data-home]').click();
+  select('addition').click(); select('start').click();
+  await settle(() => select('operation').textContent.includes('+'));
+  const key = value => window.dispatchEvent(new KeyboardEvent('keydown', {key:value,cancelable:true}));
+  key('3'); key('3'); key('Enter'); key('Enter'); key('9');
+  check(select('answer').textContent==='9', 'Nonblocking input');
+  await settle(() => select('game-status').textContent==='Partida finalizada.');
+  check(answers.length===2 && answers[1].p_answer_given===null, 'Submitted vs pending answer persistence');
+  check(select('answer').textContent==='' && select('timer').textContent==='0', 'Expiry discard');
+  select('game-home').click();
+  select('logout').click();
+  check(select('home-screen').hidden, 'Logout did not immediately hide protected content');
+  await settle(() => !select('logout').disabled);
+  window.dispatchEvent(new Event('pageshow'));
+  check(select('home-screen').hidden, 'History restored protected content');
+  badCredentials = true;
+  submit('valid123');
+  await settle(() => !select('login-submit').disabled);
+  check(select('status').textContent.includes('No se pudo iniciar sesión'), 'Generic login error missing');
+  check(!select('status').textContent.includes('@'), 'Server detail leaked');
+  badCredentials = false;
+  submit('valid123');
+  await settle(() => !select('home-screen').hidden);
+  logoutOffline = true;
+  select('logout').click();
+  await settle(() => !select('logout').disabled);
+  check(select('home-screen').hidden && !select('login-screen').hidden, 'Offline logout kept protected content');
+  document.body.dataset.testResult = 'PASS';
+  select('status').textContent = 'T10 browser validation PASS';
+} catch (error) {
+  document.body.dataset.testResult = 'FAIL';
+  document.body.append(document.createTextNode(`Browser validation failed: ${error.message}`));
+}
+</script></body></html>
