@@ -3,14 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01 — CLOSED (efectivo al verificar el push de este cierre)**
+**Implementation: T01 — CLOSED**
 
 ## Seguimiento operativo
 
 - TASK: T01 — Inicialización del repositorio.
 - OWNER: AURELIO.
-- STATUS: CLOSED (efectivo al verificar el push de este cierre).
-- Última tarea cerrada: T01, sujeto al push verificado del commit de cierre.
+- STATUS: CLOSED.
+- Última tarea cerrada operativamente: T01.
+- Commit de cierre de T01: `402af04` (`T01: close repository initialization`).
+- Push: exitoso a `origin/main` (GitHub).
 - QA: Valerio PASS — READY TO CLOSE; sin hallazgos.
 - Correcciones automáticas utilizadas: 0.
 - T02–T12: NOT_STARTED.
@@ -49,8 +51,9 @@
 - Estructura, reglas de ignore, placeholders y revisión por firmas de secretos: PASS.
 - `git diff --check`: PASS.
 - Supabase inicial verificado documentalmente, sin conexión remota en T01.
-- Este documento forma parte del commit de cierre de T01; el cierre operativo
-  solo se completa tras verificar su push. Si falla Git, T01 pasa a BLOCKED.
+- Cierre operativo completado: QA PASS, commit `402af04` y push exitoso.
+- Incidente resuelto: el primer push falló por falta de autenticación HTTPS;
+  GitHub CLI quedó autenticado y el push pendiente se completó sin repetir QA.
 
 ## Próximo responsable
 
@@ -58,7 +61,8 @@ Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar el push de cierre de T01 e iniciar T02 — esquema base de Supabase.
+Iniciar T02 — esquema base de Supabase, una vez sincronizada esta actualización
+documental de cierre.
 
 ## Regla operativa
 

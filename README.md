@@ -5,12 +5,13 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01 — estructura inicial validada por QA (PASS).**
+**Implementación: T01 — CLOSED, QA PASS y commit de cierre pusheado.**
 
 **Supabase: proyecto limpio creado y Auth configurado.**
 
-T01 deja preparada la estructura del repositorio. El siguiente paso es T02 —
-esquema base de Supabase, tras verificar el push del commit de cierre.
+T01 deja preparada la estructura del repositorio y cuenta con QA PASS. El commit
+`402af04` está publicado en GitHub. El siguiente paso es T02 — esquema base de
+Supabase.
 
 Todavía no existe implementación funcional: `src/index.html` es un placeholder,
 y las carpetas de migraciones y pruebas solo contienen marcadores `.gitkeep`.
