@@ -33,10 +33,13 @@ BEGIN
         AND c.relkind = 'r' AND c.relrowsecurity;
     IF table_count <> 5 THEN RAISE EXCEPTION 'Missing tables or default RLS'; END IF;
 
-    INSERT INTO auth.users (id, email) VALUES (user_id, user_id::text || '@mental-math.invalid');
-    INSERT INTO public.players (auth_user_id, username, display_name)
-        VALUES (user_id, 't02' || substr(replace(user_id::text, '-', ''), 1, 20), 'T02 fixture')
-        RETURNING * INTO profile;
+    INSERT INTO auth.users (id, email) VALUES
+        (user_id, 't02' || substr(replace(user_id::text, '-', ''), 1, 20) || '@mental-math.invalid');
+    -- Works before and after T03 automatic provisioning.
+    INSERT INTO public.players (id, auth_user_id, username, display_name)
+        VALUES (user_id, user_id, 't02' || substr(replace(user_id::text, '-', ''), 1, 20), 'T02 fixture')
+        ON CONFLICT (auth_user_id) DO NOTHING;
+    SELECT * INTO STRICT profile FROM public.players WHERE auth_user_id=user_id;
     player_uuid := profile.id;
     IF profile.current_addition_level <> 'S1' OR profile.current_multiplication_level <> 'M1'
         OR profile.addition_good_streak <> 0 OR profile.addition_low_streak <> 0
@@ -46,10 +49,11 @@ BEGIN
     END IF;
 
     PERFORM pg_temp.expect_rejected(format(
-        'INSERT INTO public.players(auth_user_id, username, display_name) VALUES (%L, %L, %L)',
-        user_id, 'duplicate', 'duplicate'), '23505');
+        'INSERT INTO public.players(id, auth_user_id, username, display_name) VALUES (%L, %L, %L, %L)',
+        user_id, user_id, 'duplicate', 'duplicate'), '23505');
     PERFORM pg_temp.expect_rejected(format(
-        'UPDATE public.players SET auth_user_id=%L WHERE id=%L', gen_random_uuid(), player_uuid), '23503');
+        'INSERT INTO public.players(id, auth_user_id, username, display_name) SELECT value,value,''orphan'',''orphan'' FROM (SELECT %L::uuid AS value) fixture',
+        gen_random_uuid()), '23503');
     PERFORM pg_temp.expect_rejected(format(
         'UPDATE public.players SET username=%L WHERE id=%L', 'Bad_Name', player_uuid), '23514');
     PERFORM pg_temp.expect_rejected(format(

@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T02 CLOSED, esquema base aplicado y QA PASS.**
+**Implementación: T01–T03 CLOSED, QA PASS.**
 
 **Supabase: proyecto limpio creado y Auth configurado.**
 
@@ -16,8 +16,9 @@ T02 — esquema base de Supabase está aplicado: `players`, `operations`,
 Las pruebas SQL transaccionales pasaron y sus fixtures se revirtieron.
 Valerio verificó independientemente el esquema y emitió PASS sin hallazgos.
 
-El frontend sigue siendo un placeholder. No hay lógica de juego ni
-aprovisionamiento de perfiles Auth implementados. Las tablas tienen RLS
+T03 está aplicada y validada por Valerio sin hallazgos: crear un Auth User administrativo con email técnico válido
+crea su perfil automáticamente con el mismo UUID, S1/M1 y rachas cero. El
+frontend sigue siendo un placeholder; no hay lógica de juego implementada. Las tablas tienen RLS
 habilitado y acceso de cliente revocado como protección del esquema intermedio;
 las políticas multiusuario se implementarán en T04.
 

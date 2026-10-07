@@ -3,14 +3,15 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T02 CLOSED**
+**Implementation: T01–T03 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T02 — Esquema base de Supabase.
+- TASK: T03 — Autenticación y relación auth.users → players.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T02 (cierre operativo efectivo tras push verificado).
+- Última tarea cerrada: T03 (efectivo tras push verificado).
+- Commit de cierre T02: `c3d314e`, push verificado.
 - Commit de cierre de T01: `402af04` (`T01: close repository initialization`).
 - Push: exitoso a `origin/main` (GitHub).
 - QA T01: Valerio PASS — READY TO CLOSE; sin hallazgos.
@@ -18,7 +19,7 @@
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
 - Correcciones automáticas utilizadas: 0.
-- T03–T12: NOT_STARTED.
+- T04–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -69,7 +70,20 @@
 - Sin datos persistentes añadidos por las pruebas; sin banco ni usuarios reales.
 - `.env.supabase.local` ignorado por Git y no versionado.
 - Sin dependencias nuevas ni cambios a requisitos o arquitectura.
-- Documentación de cierre preparada; commit y push se verifican antes de T03.
+- Commit y push T02 verificados; T03 iniciada.
+
+## T03 — CLOSED
+
+- Migración `202610070002_auth_players.sql` aplicada.
+- Trigger seguro para creación administrativa Auth/perfil, UUID compartido.
+- Email técnico validado; username derivado y sincronizado ante cambio de email.
+- Display name desde metadata opcional, con fallback al username.
+- Niveles/rachas iniciales definidos por la base de datos, nunca por metadata.
+- Función del trigger con search_path vacío y EXECUTE revocado al cliente.
+- Pruebas T03 y regresión T02: PASS con rollback; sin usuarios persistentes.
+- Fixtures T02 adaptados al aprovisionamiento automático sin reducir checks.
+- QA T03: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
+- Documentación de cierre preparada; verificar commit/push antes de T04.
 
 ## Próximo responsable
 
@@ -77,7 +91,7 @@ Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar commit/push de cierre T02 e iniciar T03 — relación Auth/perfil.
+Verificar commit/push de T03 e iniciar T04 — RLS y seguridad multiusuario.
 
 ## Regla operativa
 
