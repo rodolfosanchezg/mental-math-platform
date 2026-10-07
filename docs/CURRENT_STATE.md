@@ -3,14 +3,15 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T04 CLOSED; T05 CLOSED; T06 CLOSED**
+**Implementation: T01–T04 CLOSED; T05 CLOSED; T06 CLOSED; T07 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T06 — Backend de sesiones de juego.
+- TASK: T07 — Motor de progresión y records.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T06 (efectivo tras push verificado).
+- Última tarea cerrada: T07 (efectivo tras verificar push de cierre).
+- Commit T06: `d17f501`, push verificado.
 - Commit T05: `53bd124`, push verificado.
 - Commit T04: `e07db34`, push verificado.
 - CHECKPOINT 1: aprobado por Rodolfo mediante CONTINUE el 2026-10-07.
@@ -23,7 +24,7 @@
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
 - Correcciones automáticas utilizadas: 0.
-- T07–T12: NOT_STARTED.
+- T08–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -126,13 +127,29 @@
 - Progresión/records pendientes de T07; sin frontend adelantado.
 - QA T06: Valerio PASS, sin hallazgos funcionales/de seguridad; correcciones: 0.
 
+## T07 — CLOSED
+
+- Migración `202610070006_progress_records.sql` aplicada.
+- Trigger de primera finalización: progreso/historial en la transacción de cierre.
+- Rachas por modo; bloqueo de perfil para serializar cambios concurrentes.
+- Cinco buenas promueven; dos bajas descienden fuera del piso; máximos reinician.
+- Sesiones no buenas/no bajas rompen ambas rachas por la regla de consecutividad,
+  incluyendo precisión >=90% con menos de 15 operaciones.
+- En el piso no hay cambio de nivel ni reinicio por R-027; low streak permanece.
+- Records personales calculados desde sesiones completas, mínimo 10 operaciones,
+  precisión/correctas/total, y antigüedad para estabilidad de empates completos.
+- Pruebas T07 y regresión T06 PASS con rollback, sin fixtures persistentes.
+- QA T07: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
+- Integración QA real: 14 sesiones / 210 respuestas, promociones y descensos
+  en ambos modos y cierres idempotentes; fixtures revertidos.
+
 ## Próximo responsable
 
 Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar push de cierre T06 e iniciar T07.
+Verificar push de cierre T07 e iniciar T08.
 
 ## Regla operativa
 

@@ -9,6 +9,7 @@ Backend PostgreSQL reproducible; frontend todavía sin conectar.
 3. `202610070003_rls_security.sql` — T04: lectura propia y banco autenticado.
 4. `202610070004_operations_bank.sql` — T05: banco completo de operaciones.
 5. `202610070005_game_sessions.sql` — T06: RPC de persistencia de partidas.
+6. `202610070006_progress_records.sql` — T07: progreso e historial transaccional y records.
 
 Cada migración se aplica una sola vez en este orden, en una transacción.
 No borra ni sustituye tablas existentes: ante colisión se detiene. La aplicación
@@ -48,8 +49,8 @@ cuentas persistentes. Frontend login/logout pendiente de T08.
 RLS en las cinco tablas. El cliente authenticated puede leer sus propios datos
 personales y el banco operations. anon no tiene acceso. Ninguno de los roles
 API puede INSERT/UPDATE/DELETE directamente, incluso sobre datos propios;
-la persistencia usa RPC T06 que verifican identidad; la progresión se añade
-en T07. Esto evita permitir al cliente alterar niveles o resultados.
+la persistencia usa RPC T06 que verifican identidad; la progresión se ejecuta
+transaccionalmente mediante T07. Esto evita permitir al cliente alterar niveles o resultados.
 
 T04 valida roles y claims dentro de PostgreSQL; pruebas de UI y flujos completos
 quedan para las tareas frontend/integración. El banco T05 contiene 10.412 operaciones activas.
@@ -90,4 +91,27 @@ psql -X -w -v ON_ERROR_STOP=1 -f supabase/tests/t06_sessions.sql
 
 Los RPC son SECURITY DEFINER con search_path vacío y autorización auth.uid()
 explícita; EXECUTE solo authenticated. Los roles cliente siguen sin DML directo.
-Progresión y records se implementarán en T07 dentro del cierre transaccional.
+T07 integra progreso e historial en esa misma transacción de cierre.
+
+## Progresión y records T07
+
+El trigger AFTER UPDATE completed_at se ejecuta solo en la primera finalización,
+bloquea el perfil y actualiza únicamente el modo jugado. Promociones, descensos
+(y max_level_reset) registran sesión, niveles y fecha en level_history.
+Las rachas requieren partidas consecutivas: una sesión >=90% con <15 operaciones
+no es buena ni baja y rompe ambas. En S1/M1 no se desciende ni se aplica el
+reinicio de rachas asociado a un cambio de nivel. Cero respuestas tienen accuracy
+0, y se clasifican como dificultad por el umbral aprobado <75%.
+
+`get_personal_records()` devuelve hasta dos filas sessions propias, completas,
+con >=10 operaciones; ordena por accuracy, correct_answers y total_operations,
+y conserva la más antigua (started_at) ante empate completo. Se ejecuta como
+invocador bajo RLS; el cliente no puede ejecutar la función del trigger.
+
+```sh
+psql -X -w -v ON_ERROR_STOP=1 -f supabase/tests/t07_progress_records.sql
+```
+
+El test combina fixtures de resultados para umbrales/ranking e integración del
+trigger. La prueba T06 valida el flujo real de registrar respuestas y cerrar.
+No hay tabla records ni cambios al frontend.
