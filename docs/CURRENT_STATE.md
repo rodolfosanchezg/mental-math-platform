@@ -3,14 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED; T11 CLOSED**
+**Implementation: T01–T12 CLOSED; CHECKPOINT_WAIT**
 
 ## Seguimiento operativo
 
-- TASK: T11 — Resultados, revisión de errores y records.
+- TASK: T12 — Integración final, regresión y cierre de v0.1.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T11 (efectivo tras push verificado).
+- Última tarea cerrada: T12 (operativo tras push verificado del commit de cierre).
+- PROJECT_STATUS: CHECKPOINT_WAIT — Checkpoint 3, aprobación final de Rodolfo.
+- Commit T11: `3c28938`, push verificado.
 - Commit T10: `e5b211f`, push verificado.
 - Commit T09: `1280412`, push verificado.
 - Commit T08: `db5f020`, push verificado.
@@ -28,9 +30,9 @@
 - QA T02: Valerio PASS, sin hallazgos; correcciones utilizadas: 0.
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización histórica T01: `f25a071` se verificó en el cierre de T01.
-- HEAD local/remoto verificado antes de este cierre: `1280412` (T09).
-- Correcciones automáticas utilizadas: 0.
-- T12: NOT_STARTED.
+- HEAD local/remoto verificado antes del commit T12: `3c28938` (T11).
+- Correcciones automáticas utilizadas: T12 = 1 (documentación); T01–T11 = 0.
+- T12: CLOSED.
 
 ## Aprobado
 
@@ -48,10 +50,18 @@
 - Progresión y records definidos.
 - Acceptance Criteria y Test Plan alineados.
 
-## No existe todavía
+## Estado utilizable y pendiente
 
-- usuarios finales del producto (existe cuenta administrativa de prueba);
-- flujo end-to-end completo de juego ejecutado.
+- Frontend integrado: login/Home/ambos modos/juego/resultados/errores/records/logout.
+- E2E-A/B/C reales completados por Valerio: PASS; dos cuentas administrativas QA.
+- QA final T12 PASS tras Corrección #1 documental; sin defectos pendientes.
+- Commit/push de cierre se verifica antes de entregar Checkpoint 3.
+- Tras cerrar T12, Rodolfo valida/aprueba el Checkpoint 3 y autoriza cierre v0.1.
+
+## Historial de tareas cerradas
+
+Los apartados T01–T11 describen lo entregado en cada cierre; el estado integrado
+actual está arriba y en T12. Las implementaciones posteriores amplían ese alcance.
 
 ## Preparación de T01
 
@@ -99,7 +109,7 @@
 - Cinco políticas SELECT para authenticated; propiedad derivada de auth.uid().
 - Cada usuario lee solo sus players/sessions/answers/history; banco compartido.
 - anon sin permisos; INSERT/UPDATE/DELETE directos denegados a ambos roles API.
-- Escrituras transaccionales mediante RPC verificadas se implementarán en T06.
+- Escrituras transaccionales verificadas mediante RPC entregadas en T06.
 - Pruebas A/B/anónimo: PASS con rol real y claims simulados dentro de PostgreSQL.
 - Regresión T02/T03: PASS; fixtures revertidos, sin datos persistentes.
 - Test T02 actualizado para conservar checks tras habilitar lecturas en T04.
@@ -129,7 +139,7 @@
 - Cierre tras vencimiento; no recibe texto pendiente; no acepta respuestas nuevas tras cierre.
 - Métricas de tiempo medidas por cliente, validadas por rango/orden, no anticheat.
 - Pruebas T06 PASS; regresión T02–T05 PASS; fixtures revertidos.
-- Progresión/records pendientes de T07; sin frontend adelantado.
+- T06 entregó persistencia; progreso/records se añadieron en T07 y frontend T08–T11.
 - QA T06: Valerio PASS, sin hallazgos funcionales/de seguridad; correcciones: 0.
 
 ## T07 — CLOSED
@@ -166,7 +176,7 @@
 - Evidencia previa contrato/Chrome controlado/servicio público real PASS conservada.
 - Sesiones de prueba remotas cerradas; ningún defecto pendiente; correcciones: 0.
 - Informe `docs/T08_QA.md`; resumen conjunto `docs/CHECKPOINT_2.md`.
-- Documentación y commit/push de cierre deben verificarse antes de finalizar.
+- Commit `db5f020` y push de cierre T08 verificados.
 - Checkpoint 2 aprobado posteriormente; T08 sigue CLOSED.
 
 ## T09 — CLOSED
@@ -189,7 +199,7 @@
 - Guardado ordenado con UUID estable por envío, cierre RPC y REINTENTAR idempotente.
 - Sesión cancelada al perder Auth; perfil actualizado tras cerrar.
 - Tests unitarios de tiempo/bolsa/persistencia y Chrome virtual completo PASS.
-- Sin nuevas dependencias/migraciones; resultados detallados pendientes de T11.
+- Sin nuevas dependencias/migraciones; resultados detallados entregados en T11.
 - QA Valerio PASS sin hallazgos; correcciones 0.
 - Chrome real en ambos modos: 2 respuestas por sesión (correcta/vacía),
   total 2/1/1/50%, texto pendiente descartado. Dos sesiones/cuatro respuestas
@@ -208,13 +218,34 @@
 - Partida real: 10/8/2/80%, errores incorrecto/NULL y record elegible visible.
 - Sesión/10 respuestas conservadas en cuenta QA; sin limpieza destructiva.
 
+## T12 — CLOSED
+
+- Integración funcional de interfaz y backend, sin cambios a requisitos/arquitectura.
+- Regresión SQL completa y banco 10.412 PASS; fixtures SQL revertidos.
+- Node Auth/game PASS; seguridad HTTP real con dos usuarios PASS.
+- Segunda cuenta .env.auth-test-user2.local disponible e ignorada por Git.
+- B recibió una partida normal QA de Multiplicaciones/NULL al no tener sesiones;
+  datos conservados y progreso actualizado normalmente, sin limpieza destructiva.
+- Matriz `docs/VALIDATION_V01.md`, test HTTP `tests/t12_security.mjs`.
+- QA inicial: FAIL iteration 0 por F1 documental, sin defectos funcionales/seguridad.
+- Corrección #1: normalización README/Supabase README/estado y Git, sin cambiar código.
+- QA funcional final: E2E-A/B/C, SQL, banco, HTTP A/B y Node PASS.
+- Tres partidas QA finales: 10/8/2/80% cada una, 30 respuestas persistentes.
+- Partidas conservadas sin limpieza destructiva, sesiones Auth cerradas.
+- Re-review Valerio PASS: F1 completamente resuelto; correcciones utilizadas 1.
+- Cierre con documentación, commit/push y verificación antes del informe final.
+- Resumen conjunto en `docs/CHECKPOINT_3.md`; validación final de Rodolfo pendiente.
+- Tras PASS/cierre Git se entra CHECKPOINT_WAIT, y v0.1 queda pendiente de
+  validación/aprobación de Rodolfo en Checkpoint 3.
+
 ## Próximo responsable
 
-Senior Developer (Aurelio).
+Rodolfo — validación y aprobación final del Checkpoint 3.
 
 ## Próximo objetivo
 
-Verificar push T11 e iniciar T12 con dos cuentas administrativas de prueba.
+Esperar validación/aprobación final y autorización de cierre v0.1 de Rodolfo.
+El trabajo autónomo se detiene en CHECKPOINT_WAIT.
 
 ## Regla operativa
 

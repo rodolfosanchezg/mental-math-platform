@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED; T11 CLOSED.**
+**Implementación: T01–T12 CLOSED; CHECKPOINT_WAIT**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -19,7 +19,7 @@ Valerio verificó independientemente el esquema y emitió PASS sin hallazgos.
 T03 está aplicada y validada por Valerio sin hallazgos: crear un Auth User
 administrativo con email técnico válido
 crea su perfil automáticamente con el mismo UUID, S1/M1 y rachas cero. El
-frontend implementa login/logout; no hay lógica de juego implementada.
+frontend implementa login/logout, Home, juego y resultados/records.
 Las tablas tienen RLS
 y políticas de lectura de datos propios basadas en `auth.uid()`. El banco admite
 lectura autenticada; el rol anónimo carece de acceso. Las escrituras directas de
@@ -127,3 +127,14 @@ virtual de Chrome. Los tiempos reales y RPC se verifican además por QA.
 La entrada respeta el rango integer de PostgreSQL; todas las respuestas correctas
 del banco caben. Si falla guardar, REINTENTAR conserva UUID/orden y no duplica
 respuestas. No se muestra contador de ejercicios durante el juego.
+
+## Validación final T12
+
+Matriz de criterios/evidencia y comandos en `docs/VALIDATION_V01.md`.
+Regresión backend y aislamiento HTTP con dos cuentas reales: PASS del desarrollador.
+La aplicación estática ya permite login → Home → ambos modos → partida → resultados
+→ revisar errores → records → logout. QA final funcional, seguridad y E2E PASS. F1 documental quedó resuelto en
+Corrección #1 y Valerio emitió PASS de re-review, sin defectos pendientes.
+Checkpoint 3 en `docs/CHECKPOINT_3.md`: validación y aprobación final de Rodolfo
+pendientes. T01–T12 cerradas con QA y push verificado; v0.1 no se declara
+finalizada hasta que Rodolfo autorice su cierre.

@@ -1,6 +1,6 @@
 # Supabase
 
-Backend PostgreSQL reproducible; frontend todavía sin conectar.
+Backend PostgreSQL reproducible conectado al frontend estático de v0.1.
 
 ## Migraciones aplicadas
 
@@ -21,7 +21,7 @@ Anonymous Auth/`claim_player()`.
 Usar `psql` con las variables PG locales protegidas. Nunca pasar contraseñas en
 argumentos ni guardar credenciales en Git. `.env.supabase.local` está ignorado;
 si se carga en shell, desactivar trazas y exportar sus variables antes de ejecutar
-`psql`. Las pruebas requieren conexión administrativa y usan fixtures seguros
+`psql`. Las pruebas SQL requieren conexión administrativa y usan fixtures seguros
 únicamente dentro de transacciones que terminan en ROLLBACK.
 
 ```sh
@@ -42,7 +42,7 @@ la identidad de autorización.
 
 Signup público, Anonymous Auth y Confirm Email siguen OFF según configuración
 aprobada. Las migraciones no alteran los ajustes del servicio Auth ni crean
-cuentas persistentes. Frontend login/logout pendiente de T08.
+cuentas persistentes. Login/logout está implementado y validado en T08.
 
 ## Acceso después de T04
 
@@ -52,8 +52,9 @@ API puede INSERT/UPDATE/DELETE directamente, incluso sobre datos propios;
 la persistencia usa RPC T06 que verifican identidad; la progresión se ejecuta
 transaccionalmente mediante T07. Esto evita permitir al cliente alterar niveles o resultados.
 
-T04 valida roles y claims dentro de PostgreSQL; pruebas de UI y flujos completos
-quedan para las tareas frontend/integración. El banco T05 contiene 10.412 operaciones activas.
+T04 validó roles/claims dentro de PostgreSQL. T12 verificó además los flujos
+completos en Chrome y aislamiento HTTP con dos cuentas reales. El banco T05
+contiene 10.412 operaciones activas.
 
 ## Verificación del banco T05
 
@@ -114,4 +115,5 @@ psql -X -w -v ON_ERROR_STOP=1 -f supabase/tests/t07_progress_records.sql
 
 El test combina fixtures de resultados para umbrales/ranking e integración del
 trigger. La prueba T06 valida el flujo real de registrar respuestas y cerrar.
-No hay tabla records ni cambios al frontend.
+No hay tabla records. La interfaz T11 consulta este RPC para mostrar records
+propios por modo.
