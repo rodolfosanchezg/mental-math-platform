@@ -7,6 +7,7 @@ Backend PostgreSQL reproducible; frontend todavía sin conectar.
 1. `202610070001_base_schema.sql` — T02: cinco tablas, constraints e índices.
 2. `202610070002_auth_players.sql` — T03: aprovisionamiento Auth/perfil.
 3. `202610070003_rls_security.sql` — T04: lectura propia y banco autenticado.
+4. `202610070004_operations_bank.sql` — T05: banco completo de operaciones.
 
 Cada migración se aplica una sola vez en este orden, en una transacción.
 No borra ni sustituye tablas existentes: ante colisión se detiene. La aplicación
@@ -50,4 +51,16 @@ la persistencia y progreso se implementarán con RPC que verifican identidad
 en T06–T07. Esto evita permitir al cliente alterar niveles o resultados.
 
 T04 valida roles y claims dentro de PostgreSQL; pruebas de UI y flujos completos
-quedan para las tareas frontend/integración. El banco está vacío hasta T05.
+quedan para las tareas frontend/integración. El banco T05 contiene 10.412 operaciones activas.
+
+## Verificación del banco T05
+
+Con las variables PG protegidas exportadas:
+
+```sh
+python3 tests/t05_operations.py
+```
+
+El script usa solo la biblioteca estándar de Python ya disponible como herramienta
+de validación; consulta PostgreSQL en lectura y compara exhaustivamente el banco
+con las reglas S1–S5 / M1–M6. No introduce dependencias del producto.

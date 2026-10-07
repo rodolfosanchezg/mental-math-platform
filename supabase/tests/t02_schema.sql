@@ -70,11 +70,14 @@ BEGIN
         'UPDATE public.players SET multiplication_low_streak=-1 WHERE id=%L', player_uuid), '23514');
 
     INSERT INTO public.operations(type, operand_a, operand_b, result, level)
-        VALUES ('addition', 7, 8, 15, 'S1') RETURNING id INTO operation_uuid;
+        VALUES ('addition', 7, 8, 15, 'S1') ON CONFLICT (type, operand_a, operand_b, level) DO NOTHING;
+    SELECT id INTO STRICT operation_uuid FROM public.operations
+        WHERE type='addition' AND operand_a=7 AND operand_b=8 AND level='S1';
     -- Commuted operands and the same operands in different levels remain distinct.
     INSERT INTO public.operations(type, operand_a, operand_b, result, level)
         VALUES ('addition', 8, 7, 15, 'S1'), ('multiplication', 2, 5, 10, 'M1'),
-            ('multiplication', 2, 5, 10, 'M2');
+            ('multiplication', 2, 5, 10, 'M2')
+        ON CONFLICT (type, operand_a, operand_b, level) DO NOTHING;
     PERFORM pg_temp.expect_rejected(
         'INSERT INTO public.operations(type, operand_a, operand_b, result, level) VALUES (''addition'',7,8,15,''S1'')', '23505');
     PERFORM pg_temp.expect_rejected(format(

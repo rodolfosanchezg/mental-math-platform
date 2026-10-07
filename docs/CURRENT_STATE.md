@@ -3,15 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T04 CLOSED; CHECKPOINT_WAIT**
+**Implementation: T01–T04 CLOSED; T05 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T04 — RLS y seguridad multiusuario.
+- TASK: T05 — Banco de operaciones S1–S5 / M1–M6.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T04 (cierre operativo efectivo tras push verificado).
-- CHECKPOINT: 1 — CHECKPOINT_WAIT; requiere CONTINUE / FIX / REPLAN de Rodolfo.
+- Última tarea cerrada: T05 (efectivo al verificar push de cierre).
+- Commit T04: `e07db34`, push verificado.
+- CHECKPOINT 1: aprobado por Rodolfo mediante CONTINUE el 2026-10-07.
 - Commit de cierre T03: `7b02dc4`, push verificado.
 - Commit de cierre T02: `c3d314e`, push verificado.
 - Commit de cierre de T01: `402af04` (`T01: close repository initialization`).
@@ -21,7 +22,7 @@
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
 - Correcciones automáticas utilizadas: 0.
-- T05–T12: NOT_STARTED.
+- T06–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -41,7 +42,6 @@
 
 ## No existe todavía
 
-- banco de operaciones cargado;
 - usuarios reales de la aplicación;
 - frontend funcional (`src/index.html` es solo un placeholder);
 - pruebas de frontend y end-to-end ejecutadas.
@@ -98,16 +98,26 @@
 - Test T02 actualizado para conservar checks tras habilitar lecturas en T04.
 - QA T04: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
 - Cierre con commit orientado a T04 y push verificado antes de finalizar.
-- T05 no iniciada; resumen combinado en `docs/CHECKPOINT_1.md`.
+- Checkpoint 1 aprobado; resumen en `docs/CHECKPOINT_1.md`.
+
+## T05 — READY_FOR_REVIEW
+
+- Migración `202610070004_operations_bank.sql` aplicada, sin alterar datos existentes.
+- 10.412 operaciones activas y únicas: 9.798 sumas y 614 multiplicaciones.
+- S1 78; S2 810; S3 810; S4 1980; S5 6120.
+- M1 45; M2 65; M3 77; M4 81; M5 121; M6 225.
+- `tests/t05_operations.py`: verificación exhaustiva del conjunto real PASS.
+- Regresión T02/T03/T04 PASS; fixtures T02 adaptados al banco existente.
+- Sin lógica de bolsa/juego ni RPC implementadas fuera de alcance.
+- QA T05: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
 
 ## Próximo responsable
 
-Rodolfo — decisión del Checkpoint 1.
+Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Esperar CONTINUE / FIX / REPLAN de Rodolfo. No iniciar T05 antes de la
-aprobación explícita del Checkpoint 1.
+Verificar push de cierre T05 e iniciar T06.
 
 ## Regla operativa
 

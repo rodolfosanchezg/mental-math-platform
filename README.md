@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T04 CLOSED; CHECKPOINT_WAIT.**
+**Implementación: T01–T04 CLOSED; T05 CLOSED.**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -25,9 +25,11 @@ y políticas de lectura de datos propios basadas en `auth.uid()`. El banco admit
 lectura autenticada; el rol anónimo carece de acceso. Las escrituras directas de
 cliente permanecen revocadas; los RPC de persistencia se implementarán en T06.
 
-T04 obtuvo QA PASS sin hallazgos. El flujo está detenido en el Checkpoint 1:
-T05 requiere aprobación explícita de Rodolfo. Resumen conjunto de implementación
-y QA: `docs/CHECKPOINT_1.md`.
+T04 obtuvo QA PASS sin hallazgos. Rodolfo aprobó CONTINUE en el Checkpoint 1;
+El banco T05 está cargado y QA PASS. Resumen de ese checkpoint: `docs/CHECKPOINT_1.md`.
+
+El banco contiene 10.412 operaciones activas (S1–S5 / M1–M6), verificadas
+exhaustivamente por el desarrollador. La bolsa equilibrada pertenece a T10.
 
 Las instrucciones de aplicación y validación están en `supabase/README.md`.
 

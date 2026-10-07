@@ -2,10 +2,11 @@
 
 CHECKPOINT: 1
 COMPLETED THROUGH: T04
-STATUS: WAITING FOR OWNER APPROVAL
+STATUS: APPROVED — CONTINUE
 
-El estado operativo del proyecto es CHECKPOINT_WAIT tras verificar el push del
-commit de cierre T04. T01–T04 están CLOSED; T05–T12 siguen NOT_STARTED.
+Rodolfo aprobó CONTINUE el 2026-10-07. T04 cerró con commit `e07db34`, push
+verificado. El siguiente bloque autorizado es T05–T08; al cerrar T08 se detendrá
+el flujo en el Checkpoint 2. El resto de este informe conserva la foto de T04.
 
 ## Resumen de Aurelio
 
@@ -57,4 +58,4 @@ commit de cierre T04. T01–T04 están CLOSED; T05–T12 siguen NOT_STARTED.
 
 Acción recomendada: CONTINUE.
 
-Rodolfo debe responder CONTINUE, FIX o REPLAN. No iniciar T05 hasta su decisión.
+Decisión recibida: CONTINUE. Aurelio retoma T05.
