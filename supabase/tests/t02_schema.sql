@@ -131,12 +131,11 @@ BEGIN
     PERFORM pg_temp.expect_rejected(format(
         'UPDATE public.level_history SET session_id=%L WHERE player_id=%L', gen_random_uuid(), player_uuid), '23503');
 
-    IF EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='public') THEN
-        RAISE EXCEPTION 'Access policies belong to T04';
-    END IF;
+    -- Authenticated read policies are added by T04; direct writes stay revoked.
     IF has_table_privilege('anon', 'public.players', 'SELECT')
-        OR has_table_privilege('authenticated', 'public.operations', 'SELECT') THEN
-        RAISE EXCEPTION 'Intermediate schema exposed to client';
+        OR has_table_privilege('authenticated', 'public.operations', 'INSERT')
+        OR has_table_privilege('authenticated', 'public.players', 'UPDATE') THEN
+        RAISE EXCEPTION 'Unexpected client privileges';
     END IF;
 END;
 $$;

@@ -3,14 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T03 CLOSED**
+**Implementation: T01–T04 CLOSED; CHECKPOINT_WAIT**
 
 ## Seguimiento operativo
 
-- TASK: T03 — Autenticación y relación auth.users → players.
+- TASK: T04 — RLS y seguridad multiusuario.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T03 (efectivo tras push verificado).
+- Última tarea cerrada: T04 (cierre operativo efectivo tras push verificado).
+- CHECKPOINT: 1 — CHECKPOINT_WAIT; requiere CONTINUE / FIX / REPLAN de Rodolfo.
+- Commit de cierre T03: `7b02dc4`, push verificado.
 - Commit de cierre T02: `c3d314e`, push verificado.
 - Commit de cierre de T01: `402af04` (`T01: close repository initialization`).
 - Push: exitoso a `origin/main` (GitHub).
@@ -19,7 +21,7 @@
 - Actualización documental de cierre T01: `f25a071`, pusheada.
 - Sincronización T01: HEAD local y `refs/heads/main` remoto coinciden en `f25a071`.
 - Correcciones automáticas utilizadas: 0.
-- T04–T12: NOT_STARTED.
+- T05–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -39,11 +41,10 @@
 
 ## No existe todavía
 
-- políticas RLS de acceso multiusuario;
 - banco de operaciones cargado;
 - usuarios reales de la aplicación;
 - frontend funcional (`src/index.html` es solo un placeholder);
-- pruebas funcionales ejecutadas.
+- pruebas de frontend y end-to-end ejecutadas.
 
 ## Preparación de T01
 
@@ -83,15 +84,30 @@
 - Pruebas T03 y regresión T02: PASS con rollback; sin usuarios persistentes.
 - Fixtures T02 adaptados al aprovisionamiento automático sin reducir checks.
 - QA T03: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
-- Documentación de cierre preparada; verificar commit/push antes de T04.
+- Commit y push de T03 verificados; T04 iniciada.
+
+## T04 — CLOSED
+
+- Migración `202610070003_rls_security.sql` aplicada.
+- Cinco políticas SELECT para authenticated; propiedad derivada de auth.uid().
+- Cada usuario lee solo sus players/sessions/answers/history; banco compartido.
+- anon sin permisos; INSERT/UPDATE/DELETE directos denegados a ambos roles API.
+- Escrituras transaccionales mediante RPC verificadas se implementarán en T06.
+- Pruebas A/B/anónimo: PASS con rol real y claims simulados dentro de PostgreSQL.
+- Regresión T02/T03: PASS; fixtures revertidos, sin datos persistentes.
+- Test T02 actualizado para conservar checks tras habilitar lecturas en T04.
+- QA T04: Valerio PASS sin hallazgos; correcciones utilizadas: 0.
+- Cierre con commit orientado a T04 y push verificado antes de finalizar.
+- T05 no iniciada; resumen combinado en `docs/CHECKPOINT_1.md`.
 
 ## Próximo responsable
 
-Senior Developer (Aurelio).
+Rodolfo — decisión del Checkpoint 1.
 
 ## Próximo objetivo
 
-Verificar commit/push de T03 e iniciar T04 — RLS y seguridad multiusuario.
+Esperar CONTINUE / FIX / REPLAN de Rodolfo. No iniciar T05 antes de la
+aprobación explícita del Checkpoint 1.
 
 ## Regla operativa
 
