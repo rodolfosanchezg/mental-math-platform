@@ -3,14 +3,15 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED**
+**Implementation: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED; T11 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T10 — Motor frontend de juego.
+- TASK: T11 — Resultados, revisión de errores y records.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T10 (efectivo tras push verificado).
+- Última tarea cerrada: T11 (efectivo tras push verificado).
+- Commit T10: `e5b211f`, push verificado.
 - Commit T09: `1280412`, push verificado.
 - Commit T08: `db5f020`, push verificado.
 - CHECKPOINT 2: aprobado por Rodolfo mediante CONTINUE.
@@ -29,7 +30,7 @@
 - Sincronización histórica T01: `f25a071` se verificó en el cierre de T01.
 - HEAD local/remoto verificado antes de este cierre: `1280412` (T09).
 - Correcciones automáticas utilizadas: 0.
-- T11–T12: NOT_STARTED.
+- T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -50,7 +51,6 @@
 ## No existe todavía
 
 - usuarios finales del producto (existe cuenta administrativa de prueba);
-- resultados/revisión/records completos en interfaz;
 - flujo end-to-end completo de juego ejecutado.
 
 ## Preparación de T01
@@ -195,13 +195,26 @@
   total 2/1/1/50%, texto pendiente descartado. Dos sesiones/cuatro respuestas
   conservadas en cuenta de prueba, progreso actualizado normalmente.
 
+## T11 — CLOSED
+
+- Resultados de session RPC: total/correctas/incorrectas/precisión.
+- Errores según is_correct devuelto por servidor, incluyendo NULL como —.
+- OTRO JUEGO, CAMBIAR MODO, REVISAR ERRORES y VER RECORDS.
+- Perfil/nivel actual y eventos de historial tras cerrar; retry si falla lectura.
+- Records propios desde get_personal_records, estados vacíos por modo y retry.
+- Datos renderizados textContent y limpiados al perder Auth; solicitudes tardías ignoradas.
+- Node Auth/game y navegador T11 completo PASS.
+- QA Valerio PASS sin hallazgos; correcciones 0; sin migraciones/dependencias.
+- Partida real: 10/8/2/80%, errores incorrecto/NULL y record elegible visible.
+- Sesión/10 respuestas conservadas en cuenta QA; sin limpieza destructiva.
+
 ## Próximo responsable
 
 Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Verificar push T10 e iniciar T11.
+Verificar push T11 e iniciar T12 con dos cuentas administrativas de prueba.
 
 ## Regla operativa
 

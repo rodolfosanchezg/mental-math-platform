@@ -2,6 +2,7 @@ import { supabaseConfig } from './config.js';
 import { createAuth, LOGIN_ERROR, USERNAME_PATTERN } from './auth.js';
 import { createNavigation } from './navigation.js';
 import { createGame } from './game.js';
+import { createResults } from './results.js';
 
 const auth = createAuth(supabaseConfig);
 const form = document.querySelector('#login-form');
@@ -13,6 +14,7 @@ const homeScreen = document.querySelector('#home-screen');
 const status = document.querySelector('#status');
 const logout = document.querySelector('#logout');
 const navigation = createNavigation(auth, homeScreen);
+const results = createResults(auth, navigation, homeScreen);
 const gameStatus = document.querySelector('#game-status');
 const game = createGame({
   api: (path, body) => auth.authenticatedRequest(path, body),
@@ -30,9 +32,7 @@ const game = createGame({
       saving: 'Guardando partida…', 'save-error': 'No se pudo guardar la partida. Reintenta.',
       'start-error': 'No se pudo iniciar la partida.', finished: 'Partida finalizada.' })[state.phase] ?? '';
   },
-  async onComplete() {
-    try { await auth.refreshProfile(); navigation.renderHome(); } catch { /* Auth handles lost access. */ }
-  },
+  onComplete: data => results.complete(data),
 });
 document.querySelector('#start').disabled = false;
 document.querySelector('#start').addEventListener('click', () => {

@@ -19,3 +19,8 @@ button:disabled { opacity: .65; cursor: wait; }
 #answer { text-align: center; font-size: 2.5rem; min-height: 3.5rem; overflow-wrap: anywhere; }
 #feedback { text-align: center; height: 2rem; font-size: 1.5rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.totals { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.totals dd { margin: 0; font-weight: bold; }
+#error-list { padding-left: 24px; }
+#error-list p { margin: 6px 0; }
+#error-list li { padding-bottom: 16px; }

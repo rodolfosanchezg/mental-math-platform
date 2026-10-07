@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED.**
+**Implementación: T01–T08 CLOSED; T09 CLOSED; T10 CLOSED; T11 CLOSED.**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -70,7 +70,8 @@ T08 cerrado con `db5f020`. Rodolfo aprobó CONTINUE en Checkpoint 2.
 T09 muestra perfil/niveles/navegación, QA PASS. T10 implementa START, cuenta
 regresiva, 45 s, teclado, feedback y bolsa equilibrada desde el banco completo.
 Las respuestas se guardan en orden al terminar, con reintentos idempotentes y
-cierre RPC. Resultados/revisión/records completos pertenecen a T11.
+cierre RPC. T11 muestra resultados del cierre, revisión de errores/vacías y records
+personales por modo; QA PASS sin hallazgos.
 
 Las instrucciones de aplicación y validación están en `supabase/README.md`.
 

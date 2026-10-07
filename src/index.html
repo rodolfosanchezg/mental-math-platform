@@ -37,7 +37,32 @@
       </section>
       <section data-screen="records" hidden>
         <h2 tabindex="-1">Records personales</h2>
+        <div id="records-list"></div>
+        <p id="records-status" role="status"></p>
+        <button id="records-retry" type="button" hidden>REINTENTAR</button>
         <button data-home type="button">HOME</button>
+      </section>
+      <section data-screen="results" hidden>
+        <h2 tabindex="-1">TIEMPO TERMINADO</h2>
+        <dl class="totals">
+          <dt>Operaciones</dt><dd id="result-total"></dd>
+          <dt>Correctas</dt><dd id="result-correct"></dd>
+          <dt>Incorrectas</dt><dd id="result-incorrect"></dd>
+          <dt>Precisión</dt><dd id="result-accuracy"></dd>
+        </dl>
+        <p id="level-message" role="status"></p>
+        <button id="result-refresh" type="button" hidden>REINTENTAR ACTUALIZACIÓN</button>
+        <button id="play-again" type="button">OTRO JUEGO</button>
+        <button id="switch-mode" type="button">CAMBIAR A MULTIPLICACIONES</button>
+        <button id="review-errors" type="button">REVISAR ERRORES</button>
+        <button id="results-records" type="button">VER RECORDS</button>
+        <button id="results-home" data-home type="button">HOME</button>
+      </section>
+      <section data-screen="errors" hidden>
+        <h2 tabindex="-1">Revisar errores</h2>
+        <ul id="error-list"></ul>
+        <p id="errors-status" role="status"></p>
+        <button id="back-results" type="button">RESULTADOS</button>
       </section>
       <section data-screen="game" hidden>
         <span id="timer" aria-label="Segundos restantes">45</span>
