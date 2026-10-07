@@ -26,7 +26,10 @@ export function createAuth(config, {
       headers, body: body ? JSON.stringify(body) : undefined,
       cache: 'no-store', signal: AbortSignal.timeout(15000),
     });
-    if (!response.ok) throw new Error(LOGIN_ERROR);
+    if (!response.ok) {
+      if (response.status === 401 && token && token === session?.token) { generation += 1; clearSession(); }
+      throw new Error(LOGIN_ERROR);
+    }
     return response.status === 204 ? null : response.json();
   }
 
@@ -47,6 +50,14 @@ export function createAuth(config, {
       }
       return session !== null;
     },
+    getProfile() { return api.isAuthenticated() ? { ...session.profile } : null; },
+    async authenticatedRequest(path, body) {
+      if (!api.isAuthenticated() || !path.startsWith('/rest/v1/')) throw new Error('Sesión no disponible.');
+      const attempt = generation;
+      const result = await request(path, { token: session.token, body });
+      if (attempt !== generation || !api.isAuthenticated()) throw new Error('Sesión no disponible.');
+      return result;
+    },
     async signIn(username, password) {
       if (!USERNAME_PATTERN.test(username) || typeof password !== 'string' || password.length === 0) {
         throw new Error(LOGIN_ERROR);
@@ -64,12 +75,12 @@ export function createAuth(config, {
         }
         const expiresAt = now() + result.expires_in * 1000;
         // Server RLS determines which profile can be returned; username never authorizes.
-        const profiles = await request('/rest/v1/players?select=id,auth_user_id&limit=2', { token });
+        const profiles = await request('/rest/v1/players?select=id,auth_user_id,username,display_name,current_addition_level,current_multiplication_level&limit=2', { token });
         if (attempt !== generation || expiresAt <= now() || !Array.isArray(profiles) || profiles.length !== 1
             || profiles[0].auth_user_id !== result.user.id || profiles[0].id !== result.user.id) {
           throw new Error(LOGIN_ERROR);
         }
-        session = { token, expiresAt };
+        session = { token, expiresAt, profile: profiles[0] };
         expiryTimer = setTimer(() => { generation += 1; clearSession(); }, expiresAt - now());
         for (const listener of listeners) listener(true);
       } catch {

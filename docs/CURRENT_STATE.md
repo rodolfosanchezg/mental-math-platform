@@ -3,15 +3,16 @@
 ## Estado
 
 **Architecture / Requirements: CLOSED**  
-**Implementation: T01–T08 CLOSED; CHECKPOINT_WAIT**
+**Implementation: T01–T08 CLOSED; T09 CLOSED**
 
 ## Seguimiento operativo
 
-- TASK: T08 — Frontend de autenticación.
+- TASK: T09 — Home y navegación principal.
 - OWNER: AURELIO.
 - STATUS: CLOSED.
-- Última tarea cerrada: T08 (cierre operativo efectivo tras push verificado).
-- CHECKPOINT 2: CHECKPOINT_WAIT — requiere decisión explícita de Rodolfo.
+- Última tarea cerrada: T09 (efectivo tras push verificado).
+- Commit T08: `db5f020`, push verificado.
+- CHECKPOINT 2: aprobado por Rodolfo mediante CONTINUE.
 - Commit T07: `63cdf45`, push verificado.
 - Commit T06: `d17f501`, push verificado.
 - Commit T05: `53bd124`, push verificado.
@@ -27,7 +28,7 @@
 - Sincronización histórica T01: `f25a071` se verificó en el cierre de T01.
 - Último HEAD local/remoto verificado: `63cdf45`, cierre T07.
 - Correcciones automáticas utilizadas: 0.
-- T09–T12: NOT_STARTED.
+- T10–T12: NOT_STARTED.
 
 ## Aprobado
 
@@ -167,14 +168,23 @@
 - Documentación y commit/push de cierre deben verificarse antes de finalizar.
 - T09–T12 NOT_STARTED; CHECKPOINT_WAIT después del cierre T08.
 
+## T09 — CLOSED
+
+- Home con display_name y niveles actuales consultados bajo JWT/RLS.
+- Navegación a pre-juego de Sumas/Multiplicaciones, nivel automático y records.
+- DOM con textContent, sin HTML desde perfil ni email técnico visible.
+- Logout/expiración limpian datos visibles y bloquean navegación.
+- API autenticada encapsulada, sin exponer token; evita respuestas tardías tras logout.
+- Contrato Auth y navegador T09 PASS; sin dependencias ni cambios backend.
+- QA Valerio PASS sin hallazgos; correcciones 0; T10 inicia tras push verificado.
+
 ## Próximo responsable
 
-Rodolfo — decisión del Checkpoint 2.
+Senior Developer (Aurelio).
 
 ## Próximo objetivo
 
-Esperar CONTINUE / FIX / REPLAN de Rodolfo; no iniciar T09 antes de su
-aprobación explícita del Checkpoint 2.
+Verificar push T09 e iniciar T10.
 
 ## Regla operativa
 

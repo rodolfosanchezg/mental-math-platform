@@ -21,7 +21,24 @@
       </form>
     </section>
     <section id="home-screen" aria-label="Sesión autenticada" hidden>
-      <h2>Sesión iniciada</h2>
+      <section data-screen="home" hidden>
+        <h2 id="greeting" tabindex="-1"></h2>
+        <p>Sumas: <strong id="addition-level"></strong></p>
+        <button id="addition" type="button">SUMAS</button>
+        <p>Multiplicaciones: <strong id="multiplication-level"></strong></p>
+        <button id="multiplication" type="button">MULTIPLICACIONES</button>
+        <button id="view-records" type="button">VER RECORDS</button>
+      </section>
+      <section data-screen="pre-game" hidden>
+        <h2 id="mode-title" tabindex="-1"></h2>
+        <p>Nivel <strong id="mode-level"></strong></p>
+        <button id="start" type="button" disabled>START</button>
+        <button data-home type="button">HOME</button>
+      </section>
+      <section data-screen="records" hidden>
+        <h2 tabindex="-1">Records personales</h2>
+        <button data-home type="button">HOME</button>
+      </section>
       <button id="logout" type="button">LOGOUT</button>
     </section>
     <p id="status" role="status" aria-live="polite"></p>

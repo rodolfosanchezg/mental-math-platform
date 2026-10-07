@@ -2,10 +2,10 @@
 
 CHECKPOINT: 2
 COMPLETED THROUGH: T08
-STATUS: WAITING FOR OWNER APPROVAL
+STATUS: APPROVED — CONTINUE
 
-T01–T08 CLOSED tras verificar push T08. Estado del proyecto: CHECKPOINT_WAIT.
-T09–T12 NOT_STARTED. El Checkpoint 1 fue aprobado por Rodolfo mediante CONTINUE.
+Rodolfo aprobó CONTINUE el 2026-10-07. T08 cerró con `db5f020`, push verificado.
+El bloque T09–T12 está autorizado. El resto conserva la foto del Checkpoint 2.
 
 ## Resumen de Aurelio
 
@@ -59,4 +59,4 @@ T09–T12 NOT_STARTED. El Checkpoint 1 fue aprobado por Rodolfo mediante CONTINU
 
 Acción recomendada: CONTINUE.
 
-Esperar CONTINUE / FIX / REPLAN de Rodolfo. No iniciar T09 antes de su aprobación.
+Decisión recibida: CONTINUE. Aurelio retoma T09.

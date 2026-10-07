@@ -1,5 +1,6 @@
 import { supabaseConfig } from './config.js';
 import { createAuth, LOGIN_ERROR, USERNAME_PATTERN } from './auth.js';
+import { createNavigation } from './navigation.js';
 
 const auth = createAuth(supabaseConfig);
 const form = document.querySelector('#login-form');
@@ -10,6 +11,7 @@ const loginScreen = document.querySelector('#login-screen');
 const homeScreen = document.querySelector('#home-screen');
 const status = document.querySelector('#status');
 const logout = document.querySelector('#logout');
+createNavigation(auth, homeScreen);
 
 auth.subscribe((authenticated) => {
   homeScreen.hidden = !authenticated;

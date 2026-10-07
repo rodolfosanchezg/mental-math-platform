@@ -5,7 +5,7 @@ Plataforma web educativa para desarrollar fluidez en cálculo mental mediante se
 ## Estado
 
 **Requisitos y arquitectura: cerrados.**  
-**Implementación: T01–T08 CLOSED; CHECKPOINT_WAIT.**
+**Implementación: T01–T08 CLOSED; T09 CLOSED.**
 
 **Supabase: esquema base, aprovisionamiento Auth/perfil y RLS aplicados.**
 
@@ -67,9 +67,9 @@ node --experimental-default-type=module tests/t08_live_public.mjs
 
 `tests/t08_browser.html` valida la interfaz en Chrome con respuestas controladas;
 servir solo copias de src y ese fixture en un directorio temporal, sin .env.
-T08 se cierra con QA PASS, documentación y push verificado. El proyecto entra
-en CHECKPOINT_WAIT: resumen conjunto en `docs/CHECKPOINT_2.md`. Rodolfo debe
-aprobar CONTINUE / FIX / REPLAN antes de iniciar T09.
+T08 cerrado con `db5f020`. Rodolfo aprobó CONTINUE en Checkpoint 2.
+T09 muestra perfil, niveles y navegación Home/modos/records; START y contenido
+de records se completarán en T10/T11. QA T09 PASS sin hallazgos.
 
 Las instrucciones de aplicación y validación están en `supabase/README.md`.
 
